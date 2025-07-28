@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerable Blog</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <header>
+        <h1>Insecure Blog</h1>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="login.php">Login</a>
+            <a href="profile.php">Profile</a>
+            <a href="admin.php">Admin</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="search">
+            <h2>Search Posts</h2>
+            <form action="search.php" method="GET">
+                <input type="text" name="query" placeholder="Search...">
+                <button type="submit">Search</button>
+            </form>
+        </section>
+
+        <section class="posts">
+            <article>
+                <h3>Sample Post Title</h3>
+                <p>This is a sample blog post content.</p>
+                <a href="post.php?id=1">Read more</a>
+            </article>
+        </section>
+
+        <section class="upload">
+            <h2>Upload Avatar</h2>
+            <form action="upload.php" method="POST" enctype="multipart/form-data">
+                <input type="file" name="avatar">
+                <button type="submit">Upload</button>
+            </form>
+        </section>
+
+        <section class="comment-preview">
+            <h2>Latest Comment</h2>
+            <div id="comment"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Insecure Blog</p>
+    </footer>
+
+    <script>
+        // Intentionally vulnerable to DOM XSS
+        const params = new URLSearchParams(window.location.search);
+        const comment = params.get('comment');
+        if (comment) {
+            document.getElementById('comment').innerHTML = comment;
+        }
+    </script>
+</body>
+</html>
